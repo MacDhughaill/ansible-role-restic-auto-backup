@@ -6,7 +6,7 @@
   when: ansible_distribution == "Fedora"
 
 - block:
-  - name: Copy template of timer unit
+  - name: Copy template of timer units
     template:
       src: restic.timer.j2
       dest: /etc/systemd/system/{{ item.name }}.timer
@@ -15,7 +15,7 @@
       backup: true
     with_items: "{{ restic_auto_backup_jobs }}"
 
-  - name: Copy template of service unit
+  - name: Copy template of service units
     template:
       src: restic.service.j2
       dest: /etc/systemd/system/{{ item.name }}.service
@@ -24,8 +24,8 @@
       backup: true
     with_items: "{{ restic_auto_backup_jobs }}"
 
-  - name:
-    systemd: Start and enable timer unit
+  - name: Start and enable timer units
+    systemd:
       name: "{{ item.name }}.timer"
       state: started
       enabled: true
