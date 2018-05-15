@@ -20,7 +20,7 @@ Environment=AWS_ACCESS_KEY_ID={{ item.aws_access_key_id }}
 {% if item.aws_secret_access_key is defined %}
 Environment=AWS_SECRET_ACCESS_KEY={{ item.aws_secret_access_key }}
 {% endif %}
-ExecStartPre=/usr/bin/restic check
-ExecStart=/usr/bin/restic backup {{ item.target }}
-ExecStartPost=/usr/bin/restic forget {{ item.forget_policy }} --prune
-ExecStartPost=/usr/bin/restic check
+ExecStartPre={{ restic_auto_backup_binary }} check
+ExecStart={{ restic_auto_backup_binary }} backup {{ item.target }}
+ExecStartPost={{ restic_auto_backup_binary }} forget {{ item.forget_policy }} --prune
+ExecStartPost={{ restic_auto_backup_binary }} check

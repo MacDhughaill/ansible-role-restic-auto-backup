@@ -1,4 +1,5 @@
 ---
+restic_auto_backup_binary: /usr/bin/restic
 restic_auto_backup_jobs:
   - name:
     target:

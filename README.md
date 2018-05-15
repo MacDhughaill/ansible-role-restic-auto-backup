@@ -1,1 +1,1 @@
-# ansible-role-restic-service
+# ansible-role-restic-auto-backup

@@ -1,10 +1,4 @@
 ---
-- import_tasks: restic_auto_backup_CentOS_tasks.yml
-  when: ansible_distribution == "CentOS"
-
-- import_tasks: restic_auto_backup_Fedora_tasks.yml
-  when: ansible_distribution == "Fedora"
-
 - block:
   - name: Copy template of timer units
     template:
