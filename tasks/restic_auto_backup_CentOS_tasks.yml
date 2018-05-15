@@ -1,0 +1,19 @@
+---
+- block:
+  - name: Install necessary packages on CentOS
+    yum:
+      name: "{{ restic_auto_backup_CentOS_packages }}"
+      state: present
+      update_cache: true
+
+  - name: Download restic COPR repository on CentOS
+    get_url:
+      url: "https://copr.fedorainfracloud.org/coprs/copart/restic/repo/epel-{{ ansible_distribution_major_version }}/copart-restic-epel-{{ ansible_distribution_major_version }}.repo"
+      dest: "/etc/yum.repos.d/{{ restic_auto_backup_copr_name }}"
+
+  - name: Install restick package on CentOS
+    yum:
+      name: restic
+      state: present
+      update_cache: true
+  become: true

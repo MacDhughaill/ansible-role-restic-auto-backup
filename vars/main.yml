@@ -1,0 +1,6 @@
+---
+restic_auto_backup_CentOS_packages:
+  - libselinux-python
+  - yum-plugin-copr
+restic_auto_backup_copr_name: _copr_copart-restic.repo
+restic_auto_backup_Fedora_packages: libselinux-python

@@ -1,0 +1,26 @@
+# {{ ansible_managed }}
+# {{ template_run_date }}
+[Unit]
+Description=A service for the restic backup job named {{ item.name }}
+Documentation=https://restic.readthedocs.io/en/latest/index.html
+
+[Service]
+Type=oneshot
+Environment=RESTIC_REPOSITORY={{ item.repo }}
+Environment=RESTIC_PASSWORD={{ item.repo_pass }}
+{% if item.b2_account_id is defined %}
+Environment=B2_ACCOUNT_ID={{ item.b2_account_id }}
+{% endif %}
+{% if item.b2_account_key is defined %}
+Environment=B2_ACCOUNT_KEY={{ item.b2_account_key }}
+{% endif %}
+{% if item.aws_access_key_id is defined %}
+Environment=AWS_ACCESS_KEY_ID={{ item.aws_access_key_id }}
+{% endif %}
+{% if item.aws_secret_access_key is defined %}
+Environment=AWS_SECRET_ACCESS_KEY={{ item.aws_secret_access_key }}
+{% endif %}
+ExecStartPre=/usr/bin/restic check
+ExecStart=/usr/bin/restic backup {{ item.target }}
+ExecStartPost=/usr/bin/restic forget {{ item.forget_policy }} --prune
+ExecStartPost=/usr/bin/restic check

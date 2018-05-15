@@ -1,0 +1,12 @@
+# {{ ansible_managed }}
+# {{ template_run_date }}
+[Unit]
+Description=A timer for the restic backup job named {{ item.name }}
+Documentation=man:systemd.time
+Documentation=https://www.freedesktop.org/software/systemd/man/systemd.time.html
+
+[Install]
+WantedBy=timers.target
+
+[Timer]
+OnCalendar={{ item.time }}

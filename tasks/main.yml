@@ -1,0 +1,43 @@
+---
+- import_tasks: restic_auto_backup_CentOS_tasks.yml
+  when: ansible_distribution == "CentOS"
+
+- import_tasks: restic_auto_backup_Fedora_tasks.yml
+  when: ansible_distribution == "Fedora"
+
+- block:
+  - name: Copy template of timer unit
+    template:
+      src: restic.timer.j2
+      dest: /etc/systemd/system/{{ item.name }}.timer
+#      validate: systemd-analyze verify %s
+      force: true
+      backup: true
+    with_items: "{{ restic_auto_backup_jobs }}"
+
+  - name: Copy template of service unit
+    template:
+      src: restic.service.j2
+      dest: /etc/systemd/system/{{ item.name }}.service
+#      validate: systemd-analyze verify %s
+      force: true
+      backup: true
+    with_items: "{{ restic_auto_backup_jobs }}"
+
+  - name:
+    systemd: Start and enable timer unit
+      name: "{{ item.name }}.timer"
+      state: started
+      enabled: true
+      daemon_reload: true
+    with_items: "{{ restic_auto_backup_jobs }}"
+  become: true
+
+# not happy with directly putting access keys in unit files
+# with nested on templates?
+# FAQ about not needing to start/enable both service and timer
+# add service that restic check --read-data
+# add tags and hostname and exclusion and connection options support
+
+# validation is broken by Ansible
+# https://github.com/ansible/ansible/issues/19232

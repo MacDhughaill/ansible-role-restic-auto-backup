@@ -1,0 +1,12 @@
+---
+restic_auto_backup_jobs:
+  - name:
+    target:
+    forget_policy:
+    repo:
+    repo_pass:
+    time:
+    b2_account_id:
+    b2_account_key:
+    aws_access_key_id:
+    aws_secret_access_key:
