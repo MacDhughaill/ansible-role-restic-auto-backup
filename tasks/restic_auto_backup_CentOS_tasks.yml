@@ -11,7 +11,7 @@
       url: "https://copr.fedorainfracloud.org/coprs/copart/restic/repo/epel-{{ ansible_distribution_major_version }}/copart-restic-epel-{{ ansible_distribution_major_version }}.repo"
       dest: "/etc/yum.repos.d/{{ restic_auto_backup_copr_name }}"
 
-  - name: Install restick package on CentOS
+  - name: Install restic package on CentOS
     yum:
       name: restic
       state: present
